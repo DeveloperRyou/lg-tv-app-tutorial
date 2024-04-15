@@ -1,0 +1,20 @@
+{
+	"returnValue": true,
+	"wired": {
+		"netmask": "255.255.254.0",
+		"dns1": "123.456.789.180",
+		"ipAddress": "123.456.789.12",
+		"onInternet": "yes",
+		"method": "manual",
+		"state": "connected",
+		"gateway": "123.456.789.1",
+		"interfaceName": "eth0"
+	},
+	"isInternetConnectionAvailable": true,
+	"wifi": {
+		"state": "disconnected"
+	},
+	"wifiDirect": {
+		"state": "disconnected"
+	}
+}

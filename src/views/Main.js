@@ -1,45 +1,35 @@
-import Alert from '@enact/sandstone/Alert';
 import BodyText from '@enact/sandstone/BodyText';
-import Button from '@enact/sandstone/Button';
 import {Header, Panel} from '@enact/sandstone/Panels';
-import {usePopup} from './MainState';
+import Popup from '@enact/sandstone/Popup';
+import ProgressBar from '@enact/sandstone/ProgressBar';
 
-import css from './Main.module.less';
 import $L from '@enact/i18n/$L';
+import {useNetwork} from '../hooks/useNetwork';
+import {useEffect} from 'react';
 import {useProcStat} from '../hooks/useData';
 
 const Main = props => {
-	const procStat = useProcStat();
-	const {isPopupOpen, handlePopupOpen, handlePopupClose, handleLaunchApp} =
-		usePopup();
+	const {isInternetConnectionAvailable} = useNetwork();
+	const value = useProcStat();
+	useEffect(() => {
+		console.log(
+			'Main.js: isInternetConnectionAvailable:',
+			isInternetConnectionAvailable
+		);
+	}, [isInternetConnectionAvailable]);
+
+	useEffect(() => {
+		console.log('Main.js: value:', value);
+	}, [value]);
 
 	return (
 		<Panel {...props}>
-			<Header title={$L('Enact Template')} />
-			<BodyText>{$L('This is a main page of sample application.')}</BodyText>
-			<Button onClick={handlePopupOpen} size="small" className={css.buttonCell}>
-				{$L('Open Alert')}
-			</Button>
-			<BodyText>{`procStat : ${JSON.stringify(procStat)}`}</BodyText>
-			<Alert type="overlay" open={isPopupOpen} onClose={handlePopupClose}>
-				<span>{$L('This is an alert message.')}</span>
-				<buttons>
-					<Button
-						size="small"
-						className={css.buttonCell}
-						onClick={handleLaunchApp}
-					>
-						Launch
-					</Button>
-					<Button
-						size="small"
-						className={css.buttonCell}
-						onClick={handlePopupClose}
-					>
-						{$L('Close')}
-					</Button>
-				</buttons>
-			</Alert>
+			<Header title={$L('인터넷 연결중 ...')} />
+			<BodyText>{$L('인터넷에 연결중입니다')}</BodyText>
+			<ProgressBar progress={isInternetConnectionAvailable ? 1 : 0.01} />
+			<Popup open={!isInternetConnectionAvailable}>
+				인터넷 연결에 실패했습니다.
+			</Popup>
 		</Panel>
 	);
 };
