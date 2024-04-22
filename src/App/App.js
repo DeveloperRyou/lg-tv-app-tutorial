@@ -4,6 +4,8 @@ import Panels from '@enact/sandstone/Panels';
 import Main from '../views/Main';
 import {useBackHandler, useCloseHandler, useDocumentEvent} from './AppState';
 import {isDevServe} from '../libs/utils';
+import DetailPanel from '../views/DetailPanel';
+import SettingPanel from '../views/SettingPanel';
 
 /* istanbul ignore next*/
 if (isDevServe()) {
@@ -18,19 +20,22 @@ if (isDevServe()) {
 }
 
 const App = props => {
+	const [index, setIndex] = useState(0);
 	const [skinVariants, setSkinVariants] = useState({highContrast: false});
-	const handleBack = useBackHandler();
+	const handleBack = useBackHandler(setIndex);
 	const handleClose = useCloseHandler();
 	useDocumentEvent(setSkinVariants);
-
 	return (
 		<Panels
 			{...props}
+			index={index}
 			skinVariants={skinVariants}
 			onBack={handleBack}
 			onClose={handleClose}
 		>
-			<Main />
+			<Main onGoToDetail={() => setIndex(1)} />
+			<DetailPanel />
+			<SettingPanel />
 		</Panels>
 	);
 };

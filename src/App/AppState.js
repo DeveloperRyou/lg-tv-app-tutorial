@@ -24,10 +24,12 @@ const useHighContrastChangeHandler = setSkinVariants =>
 		});
 	}, [setSkinVariants]);
 
-export const useBackHandler = () =>
-	useCallback(() => {
+export const useBackHandler = (setIndex) => {
+	return useCallback(() => {
 		debugLog('BACK[I]', {});
-	}, []);
+		setIndex(prev => Math.max(0, --prev));
+	}, [setIndex]);
+};
 
 export const useCloseHandler = () =>
 	useCallback(() => {
